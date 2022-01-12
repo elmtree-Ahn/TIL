@@ -1,11 +1,19 @@
-if(true) {
-  let value = "hello";
-}
+let person = (function(){
+  let age = 15;
 
-console.log(value); // "hello"
+  return {
+    name: "luffy",
 
-if(true) {
-  let value = "world";
-}
+    getAge: function(){
+      console.log(age);
+      return age;
+    },
 
-console.log(value); // "hello"
+    setAge: function(val){
+      age = val;
+      console.log(age);
+    }
+  }
+})();
+
+pserson.getAge
