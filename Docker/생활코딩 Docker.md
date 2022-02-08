@@ -121,3 +121,147 @@ images를 클릭하면 이미지 설치 여부를 확인할 수 있습니다.
 ### 4. 컨테이너 run
 
 [https://www.youtube.com/watch?v=iLcUr0EQdrM&list=PLuHgQVnccGMDeMJsGq2O-55Ymtx0IdKWf&index=4](https://www.youtube.com/watch?v=iLcUr0EQdrM&list=PLuHgQVnccGMDeMJsGq2O-55Ymtx0IdKWf&index=4)
+
+RUN || START
+
+이미지를 실행시켜 컨테이너를 만드는 행위를 RUN이라고 한다.
+
+실행 되고 있는 컨테이너는 컴퓨터의 자원을 사용합니다.
+
+자원을 아끼기 위해서는 컨테이너를 종료할 필요가 있습니다. 
+
+STOP
+
+컨테이너를 끕니다.
+
+DELETE
+
+컨테이너를 삭제합니다. 
+
+**이걸 커맨드에서 해봅시다.** 
+
+[docker run] (실행)
+
+`docker run [OPTIONS] IMAGE [COMMAND] [ARG...]`
+
+[OPTIONS]에는 여러가지 속성이 있는데, 
+
+대표적인게 이름을 정하는 속성이에요. 예를들어
+
+`docker run —name hello httpd`
+
+hello 라는 이름으로 httpd이미지를 실행하는 겁니다. 
+
+실행중인 컨테이너 확인
+
+`docker ps` Up은 실행중이라는 의미입니다!
+
+`docker ps -a` 를 통해 운영하지 않는 컨테이너들도 확인 가능해요!
+
+[docekr stop] (종료)
+
+`docker stop [OPTIONS} CONTAINER [CONTAINER...]`
+
+CONTAINER 자리에 종료할 컨테이너의 아이디나 이름을 입력하면 됩니다. 
+
+[docker logs] (로그 확인하기)
+
+`docker logs [CONTAINER]` 컨테이너의 로그를 확인합니다. 
+
+`docker logs -f [CONTAINER]` 실시간으로 컨테이너의 로그를 확인합니다. 
+
+[docker rm] (컨테이너 삭제하기)
+
+`docker rm [CONTAINER]` 실행중인 컨테이너는 삭제되지 않습니다!
+
+`docker rm —-force [CONTAINER]`를 하면 스탑을 안해도 삭제가 됩니다.
+
+[docker rmi] (이미지 삭제)
+
+docker images 로 이미지 ls를 확인하고
+
+`docker rmi [CONTAINER]`  이미지 확인후 삭제가 가능합니다! (확인은 말 그대로 확인을 위해서에요!)
+
+### 5. 네트워크
+
+docker 없이 웹서버를 사용하는 방법 
+
+1. 2대의 컴퓨터가 필요합니다. 하나는 웹 브라우저, 하나는 웹서버
+2. 서버컴퓨터에 파일시스템 내에 index.html을 위치합니다.
+3. 그리고 이에 접속할 수 있는 Port를 열어줍니다. 80번 포트를 이용한다고 합시다.(아파치가 실제로 그래요)
+4. 웹서버에 들어가는 주소는 hello.com입니다.
+5. 이제 브라우저 컴퓨터에서 [hello.com/index.html을](http://hello.com/index.html을) 입력하여 접속을 시도합니다. 
+6. 브라우저는 hello.com에 접속해서 80번 포트에 접속해서 웹서버에서 요청을 하고 웹서버는 idnex.html을 찾습니다. 이를 읽어서 웹서버는 웹브라우저에게 파일을 전달합니다.
+
+docker로 사용해봅시다.
+
+1. docker run httpd로 웹서버를 실행하면, 웹서버가 컨테이너에 위치합니다. 
+2. 컨테이너가 된 운영체제를 뭐라고 부를까요? 바로 docker Host라고 부릅니다.
+3. docker Host 안에서는 여러개의 컨테이너가 실행될 수 있습니다.  
+4. Host랑 컨테이너는 각각의 파일 시스템을 갖고 있습니다.
+5. 접속을 시도해봅시다. 안됩니다. 왜? 컨테이너와 호스트의 연결이 끊겨 있기 때문입니다.  어떻게 연결할까요?
+6. 컨테이너를 이렇게 실행을 합니다. `docker run -p 80:80 httpd`
+7. 그러면 호스트와 컨테이너가 연결됩니다. 앞의 80은 호스트 뒤에 80은 컨테이너입니다. 
+8. 이렇게 연결하는 신호방식을 포트 포워딩(port forwarding)이라고 합니다. 
+
+**컨테이너 run 때 포트를 지정하는 방법**
+
+`docker run —name hi -p 8080:80 httpd`
+
+httpd 이미지를 hi 라는 이름으로 8080포트로 접속하면 80번 포트로 연결하여 컨테이너 실행!
+
+### 6. 명령어 실행
+
+`docker exec [OPTIONS] CONTAINER COMMANT [ARG...]`
+
+예)
+
+`docker exec ws3`  +   pwd
+
+ws3 컨테이너에서 pwd 명령 실행
+
+`docker exec ws3`  +   ls
+
+ws3 컨테이너에서 ls 명령 실행
+
+지속적으로 명령을 내리고 싶다면?
+
+`docker exec ws3 /bin/sh`
+
+본쉘이라는 프로그램을 실행합니다.  쉘은 사용자가 입력한 명령어를 운영체제에게 전달하는 역할입니다.
+
+실행 하면, 아무런 반응이 없습니다. 
+
+왜냐하면 실행하자마자 꺼졌기 때문이죠.
+
+그래서, 이렇게 실행해 봅시다.
+
+`docker exec -it ws3 /bin/sh`
+
+그 후에 사용하는 모든 명령어는 ws3 안에서 실행됩니다. 
+
+연결도 끊어야겠죠?
+
+`exit` 를 명령하면 됩니다.
+
+`docker exec -it ws3 /bin/bash` 
+
+이렇게 하면 본쉘이 아닌 배쉬쉘이 실행됩니다 참고하세요!
+
+### 7. 호스트와 컨테이너의 파일시스템 연결
+
+컨테이너 안에서 파일을 작업하는데,
+
+만약 컨테이너가 종료된다면? 혹은 삭제된다면
+
+지금까지 했던 세팅이 다 날라가겠죠.
+
+그렇다면 호스트에서 작성한 파일이
+
+컨테이너와 연결되어 바로 반영된다면 얼마나 좋을까요?
+
+컨테이너가 날라가도 소스코드는 남아있으니 안전하죠.
+
+또한 버전 관리도 쉬울겁니다. 
+
+필요시 참고하기!
