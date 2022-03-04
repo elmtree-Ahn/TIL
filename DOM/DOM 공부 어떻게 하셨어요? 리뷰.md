@@ -143,4 +143,46 @@ HTML의 앨리먼트는 동일한 앨리먼트를 포함할 수 있는 구조가
 
 ### DOM API
 
-다음에 계속....
+HTML을 조작하기 위해서는 대략 다음과 같은 단계를 거칩니다.
+
+```jsx
+DOM 기초
+1. 내가 수정을 하고자 하는 DOM을 선택하거나 생성
+2. 해당하는 요소에서 원하는 항목에 접근
+3. 해당 요소를 원하는 값으로 변경
+4. 선택된 노드 삭제
+5. 새로운 노드 추가
+```
+
+```jsx
+DOM 고급
+1. 내가 필요한 조건에 맞는 하위 요소들을 선택적으로 가져오기
+2. 알고있는 엘리먼트를 기준으로 상대적인 위치에 있는 항목에 접근 하기
+3. 여러 항목을 하나로 묶어서(=DocumentFragment) 배치 변경하기
+```
+
+DOM API는 실전 경험이 중요합니다. 
+
+최근 바닐라를 많이 안쓰니, 기회가 적지만 작은 작업들을 한 번 바닐라로 만들어 보기를 권해봅니다.
+
+### DOM에서 꼭 알아야 할 것
+
+1. DOM은 HTML 뿐만 아니라 이미 그려진 화면적 요소에도 접근할 수 있다!
+    
+    DOM은 HTML이 아닙니다.
+    
+    이미 화면에 그려져 반영된 요소에도 접근이 가능해요.
+    
+    HTML과 달리 이미 그려진 요소에 대한 속성을 조회할수 있어요.
+    
+    > Element.getBoundingClientRect
+    [https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
+    > 
+    
+2. DOM에는 Event도 포함됩니다.
+    
+    DOM에는 사용자의 클릭, 터치 등의 이벤트 요소도 포함합니다. 이벤트 핸들러를 등록하고 취소하거나 이벤트 캡쳐 버블링에 대한 부분도 알아두면 좋습니다.
+    
+    > [https://ko.javascript.info/bubbling-and-capturing](https://ko.javascript.info/bubbling-and-capturing)
+    [https://developer.mozilla.org/ko/docs/Learn/JavaScript/Building_blocks/Events](https://developer.mozilla.org/ko/docs/Learn/JavaScript/Building_blocks/Events)
+    >
